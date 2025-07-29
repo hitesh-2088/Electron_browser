@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, session } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, session } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -31,13 +31,17 @@ app.whenReady().then(() => {
   createWindow();
   
   globalShortcut.register('Ctrl+Shift+M', () => {
-        // Toggle minimize/restore
-        if (mainWindow.isMinimized()) {
-          mainWindow.restore();
-        } else {
-          mainWindow.minimize();
-        }
-      });
+    try {
+      // Toggle minimize/restore
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      } else {
+        mainWindow.minimize();
+      }
+    } catch (err) {
+      console.error('Error handling global shortcut:', err);
+    }
+  });
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

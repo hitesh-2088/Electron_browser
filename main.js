@@ -30,9 +30,20 @@ app.commandLine.appendSwitch('disable-gpu');
 app.whenReady().then(() => {
   createWindow();
   
+  globalShortcut.register('Ctrl+Shift+M', () => {
+        // Toggle minimize/restore
+        if (mainWindow.isMinimized()) {
+          mainWindow.restore();
+        } else {
+          mainWindow.minimize();
+        }
+      });
+
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+
 });
 
 app.on('window-all-closed', function () {
